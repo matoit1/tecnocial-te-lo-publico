@@ -20,8 +20,8 @@ apt-get install -y build-essential python python-dev python-setuptools python-pi
 apt-get install -y libjpeg62-dev zlib1g-dev libfreetype6-dev liblcms1-dev
 
 # MySQL Shit
-debconf-set-selections <<< 'mysql-server mysql-server/root_password password ${PROJECT_NAME}'
-debconf-set-selections <<< 'mysql-server mysql-server/root_password_again password ${PROJECT_NAME}'
+echo mysql-server mysql-server/root_password password tecnocial | debconf-set-selections
+echo mysql-server mysql-server/root_password_again password tecnocial | sudo debconf-set-selections
 apt-get install -y mysql-server mysql-client mysql-common
 
 # Dependencies for Python 3
@@ -37,4 +37,3 @@ printf "\n" >> /home/vagrant/.bashrc
 echo "export WORKON_HOME=/home/vagrant/.virtualenvs" >> /home/vagrant/.bashrc
 echo "export PIP_DOWNLOAD_CACHE=/home/vagrant/.pip_download_cache" >> /home/vagrant/.bashrc
 echo "source /usr/local/bin/virtualenvwrapper.sh" >> /home/vagrant/.bashrc
-

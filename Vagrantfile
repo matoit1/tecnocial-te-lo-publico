@@ -31,7 +31,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 
   config.vm.provision :shell do |s|
-    s.path = "vagrant_scripts/bootstrap-django.sh"
+    s.path = "vagrant_scripts/setup_mysql.sh"
     s.args = PROJECT_NAME
     s.privileged = false
   end
