@@ -367,3 +367,8 @@ table {
 .full-width-alert {
   margin-top: 53px;
 }
+@media (min-width: 1200px) {
+  .add-product-link {
+    font-size: 40px;
+  }
+}
