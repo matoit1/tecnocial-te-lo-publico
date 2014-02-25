@@ -31,6 +31,10 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    # 3rd party
+    'django_nose',
+
+    # Ours
     'static_documents'
 )
 
@@ -91,3 +95,5 @@ STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
 STATICFILES_DIRS = (
     os.path.join(PROJECT_ROOT, "assets"),
 )
+
+TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'

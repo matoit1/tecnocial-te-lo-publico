@@ -2,4 +2,6 @@ Django==1.6.1
 PyMySQL
 
 # Dev
-ipython==1.2.0
+ipython>=1.2.0
+django-nose>=1.2
+
