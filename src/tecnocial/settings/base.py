@@ -35,7 +35,8 @@ INSTALLED_APPS = (
     'django_nose',
 
     # Ours
-    'static_documents'
+    'static_documents',
+    'products',
 )
 
 MIDDLEWARE_CLASSES = (
