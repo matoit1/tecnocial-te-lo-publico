@@ -1,4 +1,5 @@
 import os
+import sys
 from os.path import dirname
 
 PROJECT_ROOT = dirname(dirname(dirname(dirname(os.path.realpath(__file__)))))
@@ -6,17 +7,14 @@ PROJECT_ROOT = dirname(dirname(dirname(dirname(os.path.realpath(__file__)))))
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.join(PROJECT_ROOT, 'src')
 
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '9hd312fage<>!*Jjav12&!yhp0^pcvr2mwwruu_u=cxyu=1c0nos%*'
-
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
+TEMPLATE_DEBUG = DEBUG
 
-TEMPLATE_DEBUG = True
+TEST_MODE = False
+
+if len(sys.argv) >= 2 and sys.argv[1] == 'test':
+    TEST_MODE = True
 
 ALLOWED_HOSTS = []
 
@@ -46,27 +44,11 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     # Better add it on prod
     #'django.middleware.clickjacking.XFrameOptionsMiddleware',
-
 )
 
 ROOT_URLCONF = 'tecnocial.urls'
 
 WSGI_APPLICATION = 'tecnocial.wsgi.application'
-
-
-# Database
-# https://docs.djangoproject.com/en/1.6/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'tecnocial',
-        'USER': 'tecnocial',
-        'PASSWORD': 'tecnocial',
-        'HOST': 'localhost',
-        'PORT': '',
-    }
-}
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/

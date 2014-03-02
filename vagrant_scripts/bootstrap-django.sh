@@ -21,4 +21,9 @@ cd ${PROJECT_DIR}
 # Grunt + Less + JS Shit
 sudo npm install --unsafe-perm
 
-}
+# Inspired by 2scoops and Jacob's slides:
+# http://www.slideshare.net/jacobian/the-best-and-worst-of-django
+
+# echo "export DJANGO_SETTINGS_MODULE=tecnocial.settings.development" >> /home/vagrant/.virtualenvs/$(PROJECT_NAME)/bin/postactivate
+# echo "unset DJANGO_SETTINGS_MODULE" >> /home/vagrant/.virtualenvs/$(PROJECT_NAME)/bin/postactivate
+# add2virtualenv ~/code/python/py3/tecnocial/src/tecnocial/

@@ -32,7 +32,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.provision :shell do |s|
     s.path = "vagrant_scripts/setup_postgres.sh"
-    s.args = PROJECT_NAME
     s.privileged = true
   end
 
