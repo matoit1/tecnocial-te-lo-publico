@@ -3,5 +3,5 @@ psycopg2
 
 # Dev
 ipython>=1.2.0
+ipdb
 django-nose>=1.2
-

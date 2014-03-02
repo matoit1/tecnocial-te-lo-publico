@@ -23,7 +23,7 @@ apt-get install -y libjpeg62-dev zlib1g-dev libfreetype6-dev liblcms1-dev
 apt-get install -y libsqlite3-dev sqlite3 bzip2 libbz2-dev
 sudo add-apt-repository ppa:fkrull/deadsnakes
 sudo apt-get update
-sudo apt-get -y install python3.3 python3-dev
+sudo apt-get -y install python3.3 python3.3-dev
 
 pip install virtualenv virtualenvwrapper
 
