@@ -1,8 +1,9 @@
 """Let's talk about Money"""
+import functools
 
+from .exceptions import ConvertError
 
-class ConvertError(Exception):
-    pass
+__all__ = ['Money', 'Currency', 'ExchangeRates', 'ConvertError']
 
 
 class Currency:
@@ -14,6 +15,10 @@ class Currency:
     def __str__(self):
         return u'{0} ({1})'.format(self.name, self.symbol)
 
+    def __repr__(self):
+        return "Currency<{0}, {1}, {2}>".format(
+            self.currency_id, self.name, self.symbol)
+
     def __eq__(self, other):
         for field in ['currency_id', 'name', 'symbol']:
             if getattr(self, field) != getattr(other, field):
@@ -21,26 +26,16 @@ class Currency:
         return True
 
 
-CURRENCIES = {
-    'ARS': Currency(currency_id='ARS', name='Argentine Peso', symbol=u'$'),
-    'USD': Currency(currency_id='USD', name='US Dollar', symbol=u'U$D'),
-}
-
-CURRENCY_CHOICES = ((c.currency_id, c.name) for c in CURRENCIES.values())
-
-
 class ExchangeRates:
     def __init__(self, rates):
         """Objects of this class are aware about exchange rates from
            one currency to other ones. 'rates' is a mapping that must
            have the following format:
-
            {
                 'ARS_USD': Decimal(...),
                 'USD_ARS': Decimal(...),
                 ...
            }
-
         """
         self.rates = rates
 
@@ -50,22 +45,19 @@ class ExchangeRates:
         return self.rates.get(key, None)
 
 
+@functools.total_ordering
 class Money:
     """Base class to represent money"""
-
     def __init__(self, amount, currency, exchange_rates=None):
-        super().__init__()
         self.amount = amount
         self.currency = currency
         self.exchange_rates = exchange_rates
 
     def is_aware(self):
-        return (self.exchange_rates is not None
-                and type(self.exchange_rates) == ExchangeRates)
+        return self.exchange_rates is not None
 
     def is_naive(self):
-        return (self.exchange_rates is None
-                or type(self.exchange_rates) != ExchangeRates)
+        return self.exchange_rates is None
 
     def convert_to(self, new_currency):
         """Converts the Money object from current currency to 'new_currency'.
@@ -75,6 +67,7 @@ class Money:
         """
         if not self.is_aware():
             raise ConvertError("Naive Money objects don't know how to convert")
+
         rate = self.exchange_rates.get_rate(self.currency, new_currency)
         if rate is None:
             raise ConvertError('Exchange rate from {0} to {1} is not '
@@ -102,9 +95,17 @@ class Money:
     def __str__(self):
         return u'{0} {1}'.format(self.currency.symbol, self.amount)
 
+    def __lt__(self, other):
+        if self.currency != other.currency:
+            raise ValueError("Can't compare money in different currency.")
+
+        return self.amount < other.amount
+
     def __eq__(self, other):
         return (
             self.currency == other.currency
             and self.amount == other.amount
             and self.is_aware() == other.is_aware()
         )
+
+    __radd__ = __add__

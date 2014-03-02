@@ -2,11 +2,11 @@ from decimal import Decimal
 
 from django.test import TestCase
 
-from .money import Money, ExchangeRates, CURRENCIES, ConvertError
+from .money import Money, ExchangeRates, ConvertError, currencies
 from .models import Product
 
-ARS = CURRENCIES['ARS']
-USD = CURRENCIES['USD']
+ARS = currencies.ARS
+USD = currencies.USD
 
 
 class TestMoney(TestCase):
@@ -46,13 +46,36 @@ class TestMoney(TestCase):
                    exchange_rates=self.exchange_rates)
         self.assertFalse(m1 == m2)
 
+    def test_money_rich_comparison_same_currency(self):
+        m1 = Money(amount=Decimal('1'), currency=USD)
+        m2 = Money(amount=Decimal('2'), currency=USD)
+
+        self.assertTrue(m1 < m2)
+        self.assertTrue(m1 <= m2)
+        self.assertTrue(m2 > m1)
+        self.assertTrue(m2 >= m1)
+
+        self.assertTrue(m1 <= m1)
+        self.assertTrue(m1 >= m1)
+
+    def test_money_rich_comparison_different_currency(self):
+        m1 = Money(amount=Decimal('1'), currency=USD)
+        m2 = Money(amount=Decimal('1'), currency=ARS)
+
+        with self.assertRaises(ValueError):
+            self.assertTrue(m1 < m2)
+
+        with self.assertRaises(ValueError):
+            self.assertTrue(m1 <= m2)
+
+        with self.assertRaises(ValueError):
+            self.assertTrue(m2 > m1)
+
+        with self.assertRaises(ValueError):
+            self.assertTrue(m2 >= m1)
+
     def test_money_naive(self):
         money = Money(amount=Decimal('100.00'), currency=USD)
-        self.assertEqual(money.is_naive(), True)
-        self.assertEqual(money.is_aware(), False)
-
-        # try setting exchange_rates as not ExchangeRates object
-        money.exchange_rates = True
         self.assertEqual(money.is_naive(), True)
         self.assertEqual(money.is_aware(), False)
 
@@ -129,10 +152,7 @@ class TestProductModel(TestCase):
     def setUp(self):
         pass
 
-    def tearDown(self):
-        pass
-
-    def test_product_price_property(self):
+    def test_product_construction_in_init(self):
         price = Money(
             amount=Decimal('100.00'),
             currency=USD
@@ -144,3 +164,18 @@ class TestProductModel(TestCase):
         self.assertEqual(product.price, price)
         self.assertEqual(product._price_in_units, Decimal('100.00'))
         self.assertEqual(product._currency, USD)
+        self.assertIsNone(product.id)
+
+    def test_product_construction_in_manager(self):
+        price = Money(
+            amount=Decimal('100.00'),
+            currency=USD
+        )
+        product = Product.objects.create(
+            name='Mother MSI px8172MA',
+            price=price
+        )
+        self.assertEqual(product.price, price)
+        self.assertEqual(product._price_in_units, Decimal('100.00'))
+        self.assertEqual(product._currency, USD)
+        self.assertIsNotNone(product.id)

@@ -1,10 +1,14 @@
 from decimal import Decimal
 
-from .money import CURRENCY_CHOICES, Money
+from .money import Money, currencies
 
 from django.db import models
 from django.core.exceptions import ValidationError
 from django.core.validators import MinValueValidator
+
+CURRENCY_CHOICES = (
+    (c.currency_id, c.name) for c in currencies.REGISTERED_CURRENCIES.values()
+)
 
 
 def validate_empty(value):
