@@ -1,5 +1,5 @@
 Django==1.6.1
-PyMySQL
+psycopg2
 
 # Dev
 ipython>=1.2.0

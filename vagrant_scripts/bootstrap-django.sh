@@ -21,3 +21,4 @@ cd ${PROJECT_DIR}
 # Grunt + Less + JS Shit
 sudo npm install --unsafe-perm
 
+}

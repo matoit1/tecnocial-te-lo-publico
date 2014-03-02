@@ -19,16 +19,11 @@ apt-get install -y build-essential python python-dev python-setuptools python-pi
 # Dependencies for image processing with PIL
 apt-get install -y libjpeg62-dev zlib1g-dev libfreetype6-dev liblcms1-dev
 
-# MySQL Shit
-echo mysql-server mysql-server/root_password password tecnocial | debconf-set-selections
-echo mysql-server mysql-server/root_password_again password tecnocial | sudo debconf-set-selections
-apt-get install -y mysql-server mysql-client mysql-common
-
 # Dependencies for Python 3
 apt-get install -y libsqlite3-dev sqlite3 bzip2 libbz2-dev
 sudo add-apt-repository ppa:fkrull/deadsnakes
 sudo apt-get update
-sudo apt-get -y install python3.3
+sudo apt-get -y install python3.3 python3-dev
 
 pip install virtualenv virtualenvwrapper
 

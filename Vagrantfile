@@ -31,9 +31,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 
   config.vm.provision :shell do |s|
-    s.path = "vagrant_scripts/setup_mysql.sh"
+    s.path = "vagrant_scripts/setup_postgres.sh"
     s.args = PROJECT_NAME
-    s.privileged = false
+    s.privileged = true
   end
 
   #config.vm.synced_folder "node_modules/", "/vagrant/node_modules", disabled: true
