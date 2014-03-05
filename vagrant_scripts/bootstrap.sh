@@ -25,6 +25,8 @@ sudo add-apt-repository ppa:fkrull/deadsnakes
 sudo apt-get update
 sudo apt-get -y install python3.3 python3.3-dev
 
+sudo npm install -g grunt-cli
+
 pip install virtualenv virtualenvwrapper
 
 printf "\n" >> /home/vagrant/.bashrc
